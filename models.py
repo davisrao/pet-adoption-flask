@@ -28,7 +28,7 @@ class Pet (db.Model):
     
     img = db.Column(db.Text,
                     nullable=False,
-                    default='')
+                    default='https://image.shutterstock.com/image-vector/silhouette-pets-600w-217393339.jpg')
                     
     age = db.Column(db.string(6),
                     nullable=False)

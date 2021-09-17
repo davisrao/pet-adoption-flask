@@ -4,7 +4,7 @@ from flask import Flask
 
 from flask_debugtoolbar import DebugToolbarExtension
 
-from models import db, connect_db
+from models import db, connect_db, Pet
 
 app = Flask(__name__)
 
@@ -22,3 +22,21 @@ db.create_all()
 # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
+
+@app.get("/")
+def show_pets():
+    """Show all the pets."""
+
+    pets = Pet.query.all()
+
+    return render_template(
+                            "pet-list.html",
+                            pets = pets)
+
+@app.get("/add")
+def show_add_pet_form():
+    """Show form to add new pet."""
+
+    return render_template(
+                            "add-pet.html"
+    )
