@@ -30,7 +30,7 @@ class Pet (db.Model):
                     nullable=False,
                     default='https://image.shutterstock.com/image-vector/silhouette-pets-600w-217393339.jpg')
                     
-    age = db.Column(db.string(6),
+    age = db.Column(db.String(6),
                     nullable=False)
 
     notes = db.Column(db.Text)

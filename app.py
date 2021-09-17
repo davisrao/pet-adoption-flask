@@ -1,10 +1,12 @@
 """Flask app for adopt app."""
 
-from flask import Flask
+from flask import Flask, render_template, request, flash, redirect
 
 from flask_debugtoolbar import DebugToolbarExtension
 
 from models import db, connect_db, Pet
+
+from forms import AddPetForm
 
 app = Flask(__name__)
 
@@ -33,10 +35,33 @@ def show_pets():
                             "pet-list.html",
                             pets = pets)
 
-@app.get("/add")
-def show_add_pet_form():
-    """Show form to add new pet."""
 
-    return render_template(
-                            "add-pet.html"
-    )
+@app.route("/add", methods=["GET", "POST"])
+def add_new_pet():
+    """Add pet form; handle adding and display of form."""
+
+    form = AddPetForm()
+
+    if form.validate_on_submit():
+        name = form.name.data
+        species = form.species.data
+        img = form.img.data or None
+        age = form.age.data
+        notes = form.notes.data
+
+        flash(f"Added {name} to pet list")
+
+        new_pet = Pet(name=name,
+                    species=species,
+                    img=img,
+                    age=age,
+                    notes=notes)
+
+        db.session.add(new_pet)
+        db.session.commit()
+
+        return redirect("/")
+
+    else:
+        return render_template(
+            "add-pet-form.html", form=form)
