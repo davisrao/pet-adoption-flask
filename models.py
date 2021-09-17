@@ -15,7 +15,9 @@ def connect_db(app):
     db.init_app(app)
 
 class Pet (db.Model):
-    
+    """
+    Pet. Class for creating new adopted pet
+    """
     __tablename__ = "pets"
 
     id = db.Column(db.Integer,
@@ -33,7 +35,9 @@ class Pet (db.Model):
     age = db.Column(db.String(6),
                     nullable=False)
 
-    notes = db.Column(db.Text)
+    notes = db.Column(db.Text,
+                        nullable=False,
+                        default='')
     
     available = db.Column(db.Boolean,
                     default=True)
